@@ -27,9 +27,6 @@ export default function Home(props) {
 	const { handleTrackLocation, locationErrorMsg, isFindingLocation } =
 		useTrackLocation();
 
-	console.log({ locationErrorMsg, isFindingLocation });
-
-	//const [coffeeStores, setCoffeeStores] = useState("");
 	const [coffeeStoresError, setCoffeeStoresError] = useState(null);
 	const { dispatch, state } = useContext(StoreContext);
 	const { coffeeStores, latLong } = state;
@@ -37,13 +34,17 @@ export default function Home(props) {
 		async function setCoffeeStoresByLocation() {
 			if (latLong) {
 				try {
-					const fetchedCoffeeStores = await fetchCoffeeStores(latLong);
-					console.log({ fetchedCoffeeStores });
+					const response = await fetch(
+						`api/getCoffeeStoresByLocation?latLong=${latLong}&limit=10`
+					);
+
+					const coffeeStores = await response.json();
 					//setCoffeeStores(fetchedCoffeeStores);
 					dispatch({
 						type: ACTION_TYPES.SET_COFFEE_STORES,
-						payload: { coffeeStores: fetchedCoffeeStores },
+						payload: { coffeeStores },
 					});
+					setCoffeeStoresError("");
 					//set coffee stores
 				} catch (error) {
 					console.log({ error });
@@ -112,7 +113,7 @@ export default function Home(props) {
 
 				{props.coffeeStores.length > 0 && (
 					<div className={styles.sectionWrapper}>
-						<h2 className={styles.heading2}>Bijeljina Stores</h2>
+						<h2 className={styles.heading2}>New York Stores</h2>
 						<div className={styles.cardLayout}>
 							{props.coffeeStores.map((coffeeStore) => {
 								return (
