@@ -76,7 +76,7 @@ const CoffeeStore = (initialProps) => {
 
 			const dbCoffeeStore = await response.json();
 		} catch (err) {
-			console.log("Error creating coffee store", err);
+			console.log("Error creating coffee store");
 		}
 	};
 
@@ -129,7 +129,7 @@ const CoffeeStore = (initialProps) => {
 			const count = votingCount + 1;
 			setVotingCount(count);
 		} catch (err) {
-			console.log("Error upvoting coffee store", err);
+			console.log("Error upvoting coffee store");
 		}
 	};
 
